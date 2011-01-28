@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.guice-recipes</groupId>
+    <artifactId>parent</artifactId>
+    <version>3.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>guice-recipes-junit4</artifactId>
+  <packaging>bundle</packaging>
+  <name>guice-recipes :: JUnit4</name>
+
+  <properties>
+    <guice-recipes.osgi.export.pkg>
+      org.guicerecipes.testing.junit4.*
+    </guice-recipes.osgi.export.pkg>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>${groupId}</groupId>
+      <artifactId>guice-recipes-core</artifactId>
+      <version>${version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.5</version>
+    </dependency>
+  </dependencies>
+
+</project>
