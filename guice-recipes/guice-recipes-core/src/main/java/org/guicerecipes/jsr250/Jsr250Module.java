@@ -25,6 +25,8 @@ import javax.annotation.*;
 
 import org.guicerecipes.support.*;
 
+import com.google.common.base.*;
+
 /**
  * A module which installs JSR 250 lifecycle and injection using the {@link Resource} annotation.
  * 
@@ -41,10 +43,11 @@ public class Jsr250Module extends GuiceyFruitModule {
 
 		bindMethodHandler(PostConstruct.class, new MethodHandler() {
 			public void afterInjection(Object injectee, Annotation annotation, Method method) throws InvocationTargetException, IllegalAccessException {
-
+				Preconditions.checkState(method.getParameterTypes().length == 0, "Method should have no arguments for @PostConstruct: %s", method);
+				method.setAccessible(true);
 				method.invoke(injectee);
 			}
-		});
+		}, true);
 
 		bind(PreDestroyCloser.class);
 	}

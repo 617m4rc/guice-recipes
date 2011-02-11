@@ -24,6 +24,7 @@ import java.util.*;
 
 import org.guicerecipes.*;
 import org.guicerecipes.support.internal.*;
+import org.guicerecipes.util.*;
 
 import com.google.common.collect.*;
 import com.google.inject.*;
@@ -102,52 +103,51 @@ public abstract class GuiceyFruitModule extends AbstractModule {
 	 * Binds a post injection hook method annotated with the given annotation to the given method handler.
 	 */
 	protected <A extends Annotation> void bindMethodHandler(final Class<A> annotationType, final MethodHandler methodHandler) {
+		bindMethodHandler(annotationType, encounterProvider(methodHandler), false);
+	}
 
-		bindMethodHandler(annotationType, encounterProvider(methodHandler));
+	protected <A extends Annotation> void bindMethodHandler(final Class<A> annotationType, final MethodHandler methodHandler, boolean lookInSuperClass) {
+		bindMethodHandler(annotationType, encounterProvider(methodHandler), lookInSuperClass);
 	}
 
 	/**
 	 * Binds a post injection hook method annotated with the given annotation to the given method handler.
 	 */
 	protected <A extends Annotation> void bindMethodHandler(final Class<A> annotationType, final Key<? extends MethodHandler> methodHandlerKey) {
-
-		bindMethodHandler(annotationType, encounterProvider(methodHandlerKey));
+		bindMethodHandler(annotationType, encounterProvider(methodHandlerKey), false);
 	}
 
 	/**
 	 * Binds a post injection hook method annotated with the given annotation to the given method handler.
 	 */
 	protected <A extends Annotation> void bindMethodHandler(final Class<A> annotationType, final Class<? extends MethodHandler> methodHandlerType) {
-
-		bindMethodHandler(annotationType, encounterProvider(methodHandlerType));
+		bindMethodHandler(annotationType, encounterProvider(methodHandlerType), false);
 	}
 
-	private <A extends Annotation> void bindMethodHandler(final Class<A> annotationType, final EncounterProvider<MethodHandler> encounterProvider) {
+	private <A extends Annotation> void bindMethodHandler(final Class<A> annotationType, final EncounterProvider<MethodHandler> encounterProvider, final boolean lookInSuperClass) {
 
 		bindListener(any(), new TypeListener() {
 			public <I> void hear(TypeLiteral<I> injectableType, TypeEncounter<I> encounter) {
 				Class<? super I> type = injectableType.getRawType();
-				Method[] methods = type.getDeclaredMethods();
-				for (final Method method : methods) {
+				final Method method = Reflection.findMethodWithAnnotation(type, annotationType, lookInSuperClass);
+				if (method != null) {
 					final A annotation = method.getAnnotation(annotationType);
-					if (annotation != null) {
-						final Provider<? extends MethodHandler> provider = encounterProvider.get(encounter);
+					final Provider<? extends MethodHandler> provider = encounterProvider.get(encounter);
 
-						encounter.register(new InjectionListener<I>() {
-							public void afterInjection(I injectee) {
+					encounter.register(new InjectionListener<I>() {
+						public void afterInjection(I injectee) {
 
-								MethodHandler methodHandler = provider.get();
-								try {
-									methodHandler.afterInjection(injectee, annotation, method);
-								} catch (InvocationTargetException ie) {
-									Throwable e = ie.getTargetException();
-									throw new ProvisionException(e.getMessage(), e);
-								} catch (IllegalAccessException e) {
-									throw new ProvisionException(e.getMessage(), e);
-								}
+							MethodHandler methodHandler = provider.get();
+							try {
+								methodHandler.afterInjection(injectee, annotation, method);
+							} catch (InvocationTargetException ie) {
+								Throwable e = ie.getTargetException();
+								throw new ProvisionException(e.getMessage(), e);
+							} catch (IllegalAccessException e) {
+								throw new ProvisionException(e.getMessage(), e);
 							}
-						});
-					}
+						}
+					});
 				}
 			}
 		});

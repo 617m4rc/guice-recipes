@@ -22,6 +22,8 @@ import java.lang.annotation.*;
 import java.lang.reflect.*;
 import java.util.*;
 
+import org.guicerecipes.util.*;
+
 /**
  * A cache which maintains which method is annotated by a given annotation for each class
  * 
@@ -43,10 +45,10 @@ class AnnotatedMethodCache {
 		// concurrently - its the same instance that will be overwritten in the map
 		Method method = methodCache.get(type);
 		if (method == null) {
-			method = findMethodWithAnnotation(type, annotationType);
+			method = Reflection.findMethodWithAnnotation(type, annotationType, true);
 			if (method != null) {
 				if (method.getParameterTypes().length != 0) {
-					throw new IllegalArgumentException("Method should have no arguments for @PostConstruct " + method);
+					throw new IllegalArgumentException("Method should have no arguments for @PreDestroy: " + method);
 				}
 				methodCache.put(type, method);
 			}
@@ -54,20 +56,4 @@ class AnnotatedMethodCache {
 		return method;
 	}
 
-	protected Method findMethodWithAnnotation(Class<?> type, Class<? extends Annotation> annotationType) {
-		Method[] methods = type.getDeclaredMethods();
-		for (Method method : methods) {
-			Annotation fromElement = method.getAnnotation(annotationType);
-			if (fromElement != null) {
-				return method;
-			}
-		}
-		if (!Object.class.equals(type)) {
-			Class<?> superclass = type.getSuperclass();
-			if (superclass != null) {
-				return findMethodWithAnnotation(superclass, annotationType);
-			}
-		}
-		return null;
-	}
 }
