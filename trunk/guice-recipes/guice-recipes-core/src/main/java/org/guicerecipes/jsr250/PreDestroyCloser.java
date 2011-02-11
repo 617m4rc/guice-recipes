@@ -40,6 +40,7 @@ public class PreDestroyCloser implements Closer {
 		if (method != null) {
 			if (method != null) {
 				try {
+					method.setAccessible(true);
 					method.invoke(object);
 				} catch (InvocationTargetException e) {
 					throw e.getTargetException();
