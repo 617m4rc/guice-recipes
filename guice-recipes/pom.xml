@@ -5,7 +5,7 @@
 	<version>3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>Guice Recipes</name>
+	<name>guice-recipes</name>
 	<url>http://guice-recipes.googlecode.com/</url>
 
 	<properties>
@@ -41,7 +41,6 @@
 		<module>guice-recipes-testng</module>
 		<module>guice-recipes-spring</module>
 		<module>guice-recipes-spring-converter</module>
-		<module>guice-recipes-osgi-test</module>
 		<module>guice-recipes</module>
 	</modules>
 
