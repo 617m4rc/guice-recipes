@@ -18,26 +18,18 @@
 
 package org.guicerecipes;
 
-import java.util.*;
-
 import junit.framework.*;
 
-import org.hamcrest.Matcher;
-
-import com.google.common.collect.*;
 import com.google.inject.*;
-
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
 
 /** @version $Revision: 1.1 $ */
 public class InjectorsTest extends TestCase {
 	public void testMatchers() throws Exception {
 		Injector injector = Guice.createInjector(new MyModule());
 
-		assertMatches(Injectors.getInstancesOf(injector, A.class), hasSize(2));
-		assertMatches(Injectors.getInstancesOf(injector, B.class), hasSize(1));
-		assertMatches(Injectors.getInstancesOf(injector, C.class), hasSize(1));
+		assertEquals(2, Injectors.getInstancesOf(injector, A.class).size());
+		assertEquals(1, Injectors.getInstancesOf(injector, B.class).size());
+		assertEquals(1, Injectors.getInstancesOf(injector, C.class).size());
 
 		//assertMatches(Injectors.getInstancesOf(injector, Matchers.subclassesOf(C.class).and(Matchers.annotatedWith(Blue.class))), hasSize(1));
 	}
@@ -67,9 +59,4 @@ public class InjectorsTest extends TestCase {
 		}
 	}
 
-	// TODO hack to get around generics issue with hamcrest
-	private void assertMatches(Collection<?> set, Matcher<Collection<Object>> matcher) {
-		Collection<Object> list = Lists.newArrayList(set);
-		assertThat(list, matcher);
-	}
 }
