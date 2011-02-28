@@ -5,13 +5,12 @@
   <parent>
     <groupId>org.guice-recipes</groupId>
     <artifactId>parent</artifactId>
-    <version>3.0-SNAPSHOT</version>  
+    <version>3.0</version>  
     <relativePath>../..</relativePath>
   </parent>
 
   <artifactId>guice-recipes-bundle</artifactId>
   <name>guice-recipes :: Assembly :: Bundle</name>
-  <description>Guice Fruit Bundle</description>
 
   <properties>
     <maven.test.skip>true</maven.test.skip>
