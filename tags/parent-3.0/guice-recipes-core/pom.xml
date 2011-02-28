@@ -1,0 +1,106 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.guice-recipes</groupId>
+    <artifactId>parent</artifactId>
+    <version>3.0</version>
+  </parent>
+  <artifactId>guice-recipes-core</artifactId>
+  <packaging>bundle</packaging>
+  <name>guice-recipes :: Core</name>
+
+  <properties>
+    <guice-recipes.osgi.export.pkg>
+      org.guicerecipes.*
+    </guice-recipes.osgi.export.pkg>
+    <guice-recipes.osgi.import>
+      javax.naming;resolution:=optional,
+      javax.naming.spi;resolution:=optional,
+      *
+    </guice-recipes.osgi.import>
+  </properties>
+  <repositories>
+    <repository>
+      <id>guice-recipes.release</id>
+      <name>guice-recipes Release Repository</name>
+      <url>http://guice-recipes.googlecode.com/svn/repo/releases/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+    <repository>
+      <id>com.springsource.repository.bundles.external</id>
+      <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
+      <url>http://repository.springsource.com/maven/bundles/external</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+      <version>${guice-version}</version>
+    </dependency>
+    <!-- OSGi bundles of Guice dependencies -->
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+    </dependency>
+	<dependency>
+	    <groupId>asm</groupId>
+	    <artifactId>asm</artifactId>
+	</dependency>
+    <!--
+        <dependency>
+          <groupId>org.apache.servicemix.bundles</groupId>
+          <artifactId>org.apache.servicemix.bundles.aopalliance</artifactId>
+        </dependency>
+    -->
+    <!-- switch to the real google collections distro when its OSGi-ified -->
+<!--
+    <dependency>
+      <groupId>com.google.collect</groupId>
+      <artifactId>com.springsource.com.google.common.collect</artifactId>
+      <version>0.8.0.20080820</version>
+    </dependency>
+-->
+
+    <!-- testing -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-all</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!--
+              I think this is by design see the issue
+              http://code.google.com/p/guice-recipes/issues/detail?id=4
+            -->
+            <exclude>**/ResourceWithParentInjectorTest.*</exclude>
+
+            <!--
+              This is not yet supported but would be an interesting approach
+              -->
+            <exclude>**/InjectionPointInjectTest.*</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

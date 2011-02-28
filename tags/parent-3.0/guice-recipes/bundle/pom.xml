@@ -1,0 +1,74 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.guice-recipes</groupId>
+    <artifactId>parent</artifactId>
+    <version>3.0</version>  
+    <relativePath>../..</relativePath>
+  </parent>
+
+  <artifactId>guice-recipes-bundle</artifactId>
+  <name>guice-recipes :: Assembly :: Bundle</name>
+
+  <properties>
+    <maven.test.skip>true</maven.test.skip>
+    <createSourcesJar>false</createSourcesJar>
+    <shade.version>1.0.1</shade.version>
+  </properties>
+
+
+  <dependencies>
+    <dependency>
+      <groupId>org.guice-recipes</groupId>
+      <artifactId>guice-recipes-core</artifactId>      
+    </dependency>
+    <dependency>
+      <groupId>org.guice-recipes</groupId>
+      <artifactId>guice-recipes-spring</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.guice-recipes</groupId>
+      <artifactId>guice-recipes-ejb</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.guice-recipes</groupId>
+      <artifactId>guice-recipes-jpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.guice-recipes</groupId>
+      <artifactId>guice-recipes-spring-converter</artifactId>      
+    </dependency>
+        
+  </dependencies>
+
+  <build>
+    <plugins>      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>${shade.version}</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <artifactSet>
+                <excludes>
+                  <exclude>org.guice-recipes:guice-recipes-bundle</exclude>
+                </excludes>
+              </artifactSet>               
+              <shadedArtifactAttached>false</shadedArtifactAttached>
+              <createSourcesJar>${createSourcesJar}</createSourcesJar>
+              <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
+              <createDependencyReducedPom>true</createDependencyReducedPom>              
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
