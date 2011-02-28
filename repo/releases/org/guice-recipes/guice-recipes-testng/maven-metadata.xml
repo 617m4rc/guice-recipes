@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+  <groupId>org.guice-recipes</groupId>
+  <artifactId>guice-recipes-testng</artifactId>
+  <version>3.0</version>
+  <versioning>
+    <versions>
+      <version>3.0</version>
+    </versions>
+    <lastUpdated>20110228172700</lastUpdated>
+  </versioning>
+</metadata>
