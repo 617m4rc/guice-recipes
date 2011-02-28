@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.guice-recipes</groupId>
 	<artifactId>parent</artifactId>
-	<version>3.0</version>
+	<version>3.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>guice-recipes</name>
@@ -73,9 +73,9 @@
 	</distributionManagement>
 
 	<scm>
-		<connection>scm:svn:http://guice-recipes.googlecode.com/svn/tags/parent-3.0</connection>
-		<developerConnection>scm:svn:https://guice-recipes.googlecode.com/svn/tags/parent-3.0</developerConnection>
-		<url>http://guice-recipes.googlecode.com/svn/tags/parent-3.0</url>
+		<connection>scm:svn:http://guice-recipes.googlecode.com/svn/trunk</connection>
+		<developerConnection>scm:svn:https://guice-recipes.googlecode.com/svn/trunk</developerConnection>
+		<url>http://guice-recipes.googlecode.com/svn/trunk/</url>
 	</scm>
 
 	<dependencyManagement>
